@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
@@ -11,12 +11,18 @@ import {
 } from './counterSlice';
 import styles from './Counter.module.css';
 
-export function Counter() {
+export function Counter(props: {val?: boolean}) {
   const count = useAppSelector(selectCount);
   const dispatch = useAppDispatch();
   const [incrementAmount, setIncrementAmount] = useState('2');
 
+  useEffect(() => {
+    localStorage.setItem('counter', count.toString());
+  }, [count]);
+
   const incrementValue = Number(incrementAmount) || 0;
+
+  console.log('counter render');
 
   return (
     <div>

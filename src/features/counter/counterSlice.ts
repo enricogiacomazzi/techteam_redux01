@@ -7,8 +7,13 @@ export interface CounterState {
   status: 'idle' | 'loading' | 'failed';
 }
 
+const getFromLS = () => {
+  const value = localStorage.getItem('counter');
+  return !!value ? parseInt(value, 10) : 0;
+}
+
 const initialState: CounterState = {
-  value: 0,
+  value: getFromLS(),
   status: 'idle',
 };
 
@@ -59,9 +64,12 @@ export const counterSlice = createSlice({
       })
       .addCase(incrementAsync.rejected, (state) => {
         state.status = 'failed';
+        // setToLS(0);
       });
   },
 });
+
+console.log('actions', counterSlice.actions);
 
 export const { increment, decrement, incrementByAmount } = counterSlice.actions;
 
